@@ -1,6 +1,6 @@
 {
-  "name": "ece",
-  "version": "1.0.0",
+  "name": "dae",
+  "version": "0.0.0",
   "description": "",
   "main": "./backend/index.js",
   "scripts": {
