@@ -1,0 +1,32 @@
+{
+    "sources": [
+      {
+        "dir": "D:/DSSoftware/APPS/divineaudioengine/compiled",
+        "fileExtensions": [
+          "js","d.ts"
+        ],
+        "id": "dae"
+      }
+    ],
+    "outputs": [
+      {
+        "dir": "D:/DSSoftware/APPS/divineaudioengine/electron/app/code",
+        "sourceID": "dae",
+        "codeSection": "all",
+        "keepComments": true
+      },
+      {
+        "dir": "D:/DSSoftware/APPS/divineaudioengine/electron/code",
+        "sourceID": "dae",
+        "codeSection": "all",
+        "keepComments": true
+      }
+    ],
+    "codeSections": {
+      "all": {
+        "start": "@ds",
+        "end": "@ds"
+      }
+    }
+  }
+  
