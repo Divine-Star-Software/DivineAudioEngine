@@ -19,7 +19,6 @@ const APP_INIT = async () => {
     }
   );
   const mainWindow = await CreateMainWindow();
-  setUpWindowComm(mainWindow);
 };
 
 const CreateMainWindow = async () => {
@@ -51,33 +50,6 @@ const CreateMainWindow = async () => {
   mainWindow.loadFile("app/index.html");
 
   return mainWindow;
-};
-
-const setUpWindowComm = (
-  mainWindow: Electron.CrossProcessExports.BrowserWindow
-) => {
-  const wsMessageFunctions = {
-    "go to dimension": () => {
-      mainWindow.loadFile("app/dimension.html");
-    },
-    "go home": () => {
-      mainWindow.loadFile("app/index.html");
-    },
-  };
-
-  const wss = new ws.WebSocketServer({ port: 8080 });
-  wss.on("connection", function connection(ws: any) {
-    ws.on("message", function message(data: any) {
-      console.log("received: %s", data);
-      //@ts-ignore
-      if (wsMessageFunctions[data]) {
-        //@ts-ignore
-        wsMessageFunctions[data]();
-      }
-    });
-
-    //ws.send("something");
-  });
 };
 
 app.commandLine.appendSwitch("--disable-gpu-process-crash-limit");

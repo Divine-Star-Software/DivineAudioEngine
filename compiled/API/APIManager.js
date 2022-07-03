@@ -16,11 +16,9 @@ export const APIManager = {
         document.body.append(APIManager.audioDiv);
     },
     async createReverb() {
-        let convolver = this.context.createConvolver();
-        // load impulse response from file
-        let response = await fetch("DAE/reverb/St Nicolaes Church.wav");
-        //let response = await fetch("./assets/audio/title-screen.mp3");
-        let arraybuffer = await response.arrayBuffer();
+        const convolver = this.context.createConvolver();
+        const response = await fetch("DAE/reverb/St Nicolaes Church.wav");
+        const arraybuffer = await response.arrayBuffer();
         convolver.buffer = await this.context.decodeAudioData(arraybuffer);
         return convolver;
     },

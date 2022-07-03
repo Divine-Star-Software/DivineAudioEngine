@@ -22,7 +22,6 @@ const APP_INIT = () => __awaiter(void 0, void 0, void 0, function* () {
         });
     });
     const mainWindow = yield CreateMainWindow();
-    setUpWindowComm(mainWindow);
 });
 const CreateMainWindow = () => __awaiter(void 0, void 0, void 0, function* () {
     const mainWindow = new BrowserWindow({
@@ -49,28 +48,6 @@ const CreateMainWindow = () => __awaiter(void 0, void 0, void 0, function* () {
     mainWindow.loadFile("app/index.html");
     return mainWindow;
 });
-const setUpWindowComm = (mainWindow) => {
-    const wsMessageFunctions = {
-        "go to dimension": () => {
-            mainWindow.loadFile("app/dimension.html");
-        },
-        "go home": () => {
-            mainWindow.loadFile("app/index.html");
-        },
-    };
-    const wss = new ws.WebSocketServer({ port: 8080 });
-    wss.on("connection", function connection(ws) {
-        ws.on("message", function message(data) {
-            console.log("received: %s", data);
-            //@ts-ignore
-            if (wsMessageFunctions[data]) {
-                //@ts-ignore
-                wsMessageFunctions[data]();
-            }
-        });
-        //ws.send("something");
-    });
-};
 app.commandLine.appendSwitch("--disable-gpu-process-crash-limit");
 app.disableDomainBlockingFor3DAPIs();
 app.commandLine.appendSwitch("js-flags", "--max-old-space-size=10000");
