@@ -5,13 +5,13 @@ export const EffectsManager = {
     async preloadReverbBuffers(builtInReverbs, customReverbs) {
         for (const rid of builtInReverbs) {
             const path = DAE.constants.getBuiltInReverbPath(rid);
-            const buffer = await DAE.APIManager.getAudioBuffer(path);
+            const buffer = await DAE.api.getAudioBuffer(path);
             this.builtInReverbBuffers[rid] = buffer;
         }
         if (customReverbs) {
             for (const rid of customReverbs) {
                 const path = DAE.constants.getCustomReverbPath(rid);
-                const buffer = await DAE.APIManager.getAudioBuffer(path);
+                const buffer = await DAE.api.getAudioBuffer(path);
                 this.customReverbBuffers[rid] = buffer;
             }
         }
@@ -41,8 +41,8 @@ export const EffectsManager = {
         if (effectsData.reverb) {
             const buffer = this._getReverbBuffer(effectsData);
             if (buffer) {
-                const reverb = DAE.APIManager.createConvolver(buffer);
-                const reverbGain = DAE.APIManager.createGain();
+                const reverb = DAE.api.createConvolver(buffer);
+                const reverbGain = DAE.api.createGain();
                 source.connect(reverb);
                 reverb.connect(reverbGain);
                 reverbGain.gain.value = effectsData.reverb.level;

@@ -1,4 +1,9 @@
-import { MusicTrackNodes, PannerNodeData, SFXNodes } from "../Meta/Audio.types";
+import {
+  BiquadFilterNodeData,
+  DynamicCompressorData,
+  PannerNodeData,
+} from "../Meta/API.types";
+import { MusicTrackNodes, SFXNodes } from "../Meta/Audio.types";
 
 const context = new AudioContext();
 const masterChannel = context.createGain();
@@ -32,9 +37,59 @@ export const APIManager = {
     return source;
   },
 
-  createGain() {
+  createDynamicCompressor(data: DynamicCompressorData) {
+    const comp = this.context.createDynamicsCompressor();
+    if (data.threshold != undefined) {
+      comp.threshold.value = data.threshold;
+    }
+    if (data.knee != undefined) {
+      comp.knee.value = data.knee;
+    }
+    if (data.ratio != undefined) {
+      comp.ratio.value = data.ratio;
+    }
+    if (data.attack != undefined) {
+      comp.attack.value = data.attack;
+    }
+    if (data.release != undefined) {
+      comp.release.value = data.release;
+    }
+  },
+
+  /*
+  https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode
+  */
+  createWaveShapeNode(curve: Float32Array, oversample?: OverSampleType) {
+    const node = this.context.createWaveShaper();
+    node.curve = curve;
+    if (oversample) {
+      node.oversample = oversample;
+    }
+  },
+
+  createGain(value: number = 1) {
     const gain = this.context.createGain();
+    gain.gain.value = value;
     return gain;
+  },
+
+  createDelayNode(delayTime: number) {
+    const delay = this.context.createDelay();
+    delay.delayTime.value = delayTime;
+    return delay;
+  },
+
+  createBiQuadFilterNode(data: BiquadFilterNodeData) {
+    const filter = this.context.createBiquadFilter();
+    filter.type = data.type;
+    filter.frequency.value = data.frequency;
+    if (data.Q != undefined) {
+      filter.Q.value = data.Q;
+    }
+    if (data.detune != undefined) {
+      filter.detune.value = data.detune;
+    }
+    return filter;
   },
 
   createConvolver(buffer: AudioBuffer) {

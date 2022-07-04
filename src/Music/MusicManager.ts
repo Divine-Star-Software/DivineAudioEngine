@@ -40,7 +40,7 @@ export const MusicManager = {
   async createMusicNodes() {
     for (const trackID of Object.keys(this._trackData)) {
       const track = this._trackData[trackID];
-      const node = await DAE.APIManager.createAudioElementNode(track.path);
+      const node = await DAE.api.createAudioElementNode(track.path);
       this._trackNodes[track.id] = node;
     }
   },

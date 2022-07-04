@@ -1,4 +1,4 @@
-import { APIManager } from "./API/APIManager.js";
+import { APIManager  } from "./API/APIManager.js";
 import { ConstantsManager } from "./Constants/ConstantsManager.js";
 import { EffectsManager } from "./Effects/EffectsManager.js";
 import { MusicManager } from "./Music/MusicManager.js";
@@ -7,7 +7,7 @@ import { SoundSpaceManager } from "./SoundSpace/SoundSpaceManager.js";
 
 export const DAE = {
   version: "0.0.0",
-  APIManager: APIManager,
+  api: APIManager,
   music: MusicManager,
   sfx: SFXMAnager,
   space : SoundSpaceManager,
@@ -15,7 +15,7 @@ export const DAE = {
   constants : ConstantsManager,
 
   async $INIT() {
-    DAE.APIManager.$INIT();
+    DAE.api.$INIT();
     DAE.sfx.createChannels();
     await DAE.music.createMusicNodes();
     await DAE.sfx.createSFXNodes();

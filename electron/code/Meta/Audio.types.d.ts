@@ -1,3 +1,4 @@
+import { PannerNodeData } from "./API.types";
 import { EffectData } from "./Effects.types";
 export declare type MusicTrackData = {
     id: string;
@@ -40,20 +41,4 @@ export declare type EffectNodes = {
     master: GainNode;
     reverb?: ConvolverNode;
     delay?: DelayNode;
-};
-export declare type PannerNodeData = {
-    panningModel?: "equalpower" | "HRTF";
-    distanceModel?: "linear" | "inverse" | "exponential";
-    positionX: number;
-    positionY: number;
-    positionZ: number;
-    orientationX?: number;
-    orientationY?: number;
-    orientationZ?: number;
-    refDistance?: number;
-    maxDistance?: number;
-    rolloffFactor?: number;
-    coneInnerAngle?: number;
-    coneOuterAngle?: number;
-    coneOuterGain?: number;
 };

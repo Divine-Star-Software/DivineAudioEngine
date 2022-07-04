@@ -6,14 +6,14 @@ import { SFXMAnager } from "./SFX/SFXManager.js";
 import { SoundSpaceManager } from "./SoundSpace/SoundSpaceManager.js";
 export const DAE = {
     version: "0.0.0",
-    APIManager: APIManager,
+    api: APIManager,
     music: MusicManager,
     sfx: SFXMAnager,
     space: SoundSpaceManager,
     effects: EffectsManager,
     constants: ConstantsManager,
     async $INIT() {
-        DAE.APIManager.$INIT();
+        DAE.api.$INIT();
         DAE.sfx.createChannels();
         await DAE.music.createMusicNodes();
         await DAE.sfx.createSFXNodes();

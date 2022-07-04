@@ -1,15 +1,19 @@
 export declare const DAE: {
     version: string;
-    APIManager: {
+    api: {
         context: AudioContext;
         master: GainNode;
-        pannerNodeDefaults: Partial<import("./Meta/Audio.types.js").PannerNodeData>;
+        pannerNodeDefaults: Partial<import("./Meta/API.types.js").PannerNodeData>;
         $INIT(): void;
         connectToMaster(node: AudioNode): void;
         createAudioBufferSource(buffer: AudioBuffer): AudioBufferSourceNode;
-        createGain(): GainNode;
+        createDynamicCompressor(data: import("./Meta/API.types.js").DynamicCompressorData): void;
+        createWaveShapeNode(curve: Float32Array, oversample?: OverSampleType | undefined): void;
+        createGain(value?: number): GainNode;
+        createDelayNode(delayTime: number): DelayNode;
+        createBiQuadFilterNode(data: import("./Meta/API.types.js").BiquadFilterNodeData): BiquadFilterNode;
         createConvolver(buffer: AudioBuffer): ConvolverNode;
-        createPannerNode(nodeData: Partial<import("./Meta/Audio.types.js").PannerNodeData>): PannerNode;
+        createPannerNode(nodeData: Partial<import("./Meta/API.types.js").PannerNodeData>): PannerNode;
         getAudioBuffer(path: string): Promise<AudioBuffer>;
         createAudioElementNode(path: string): Promise<import("./Meta/Audio.types.js").MusicTrackNodes>;
     };

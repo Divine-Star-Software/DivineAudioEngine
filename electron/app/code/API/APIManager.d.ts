@@ -1,4 +1,5 @@
-import { MusicTrackNodes, PannerNodeData } from "../Meta/Audio.types";
+import { BiquadFilterNodeData, DynamicCompressorData, PannerNodeData } from "../Meta/API.types";
+import { MusicTrackNodes } from "../Meta/Audio.types";
 export declare const APIManager: {
     context: AudioContext;
     master: GainNode;
@@ -6,7 +7,11 @@ export declare const APIManager: {
     $INIT(): void;
     connectToMaster(node: AudioNode): void;
     createAudioBufferSource(buffer: AudioBuffer): AudioBufferSourceNode;
-    createGain(): GainNode;
+    createDynamicCompressor(data: DynamicCompressorData): void;
+    createWaveShapeNode(curve: Float32Array, oversample?: OverSampleType | undefined): void;
+    createGain(value?: number): GainNode;
+    createDelayNode(delayTime: number): DelayNode;
+    createBiQuadFilterNode(data: BiquadFilterNodeData): BiquadFilterNode;
     createConvolver(buffer: AudioBuffer): ConvolverNode;
     createPannerNode(nodeData: Partial<PannerNodeData>): PannerNode;
     getAudioBuffer(path: string): Promise<AudioBuffer>;

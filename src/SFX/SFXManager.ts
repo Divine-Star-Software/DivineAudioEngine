@@ -33,7 +33,7 @@ export const SFXMAnager = {
       pannerData.positionX = options._3dSoundPosition.x;
       pannerData.positionY = options._3dSoundPosition.y;
       pannerData.positionZ = options._3dSoundPosition.z;
-      return DAE.APIManager.createPannerNode(pannerData);
+      return DAE.api.createPannerNode(pannerData);
     }
     return false;
   },
@@ -62,9 +62,9 @@ export const SFXMAnager = {
       options = newOption;
     }
     const node = this.getSFXNode(sfxId);
-    const master = DAE.APIManager.createGain();
-    const sourceGain = DAE.APIManager.createGain();
-    const source = DAE.APIManager.createAudioBufferSource(node.buffer);
+    const master = DAE.api.createGain();
+    const sourceGain = DAE.api.createGain();
+    const source = DAE.api.createAudioBufferSource(node.buffer);
     let finalNode: AudioNode = source;
     if (options?.playBackRate !== undefined) {
       source.playbackRate.value = options.playBackRate;
@@ -91,7 +91,7 @@ export const SFXMAnager = {
     finalNode.connect(sourceGain);
     sourceGain.connect(master);
 
-    DAE.APIManager.connectToMaster(master);
+    DAE.api.connectToMaster(master);
     source.start(0);
 
     if (!this._playingSFX[data.id]) {
@@ -175,7 +175,7 @@ export const SFXMAnager = {
   async createSFXNodes() {
     for (const sfxKey of Object.keys(this._sfxData)) {
       const sfx = this._sfxData[sfxKey];
-      const buffer = await DAE.APIManager.getAudioBuffer(sfx.path);
+      const buffer = await DAE.api.getAudioBuffer(sfx.path);
       this._sfxNodes[sfx.id] = {
         buffer: buffer,
       };
