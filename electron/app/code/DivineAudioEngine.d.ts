@@ -8,7 +8,7 @@ export declare const DAE: {
         connectToMaster(node: AudioNode): void;
         createAudioBufferSource(buffer: AudioBuffer): AudioBufferSourceNode;
         createGain(): GainNode;
-        createReverb(): Promise<ConvolverNode>;
+        createConvolver(buffer: AudioBuffer): ConvolverNode;
         createPannerNode(nodeData: Partial<import("./Meta/Audio.types.js").PannerNodeData>): PannerNode;
         getAudioBuffer(path: string): Promise<AudioBuffer>;
         createAudioElementNode(path: string): Promise<import("./Meta/Audio.types.js").MusicTrackNodes>;
@@ -36,6 +36,7 @@ export declare const DAE: {
         _sfxNodes: Record<string, import("./Meta/Audio.types.js").SFXNodes>;
         _sfxChannels: Record<string, GainNode>;
         _getPanner(data: import("./Meta/Audio.types.js").SFXData, options?: import("./Meta/Audio.types.js").SFXPlayOptions | undefined): false | PannerNode;
+        _getOptions(data: import("./Meta/Audio.types.js").SFXData): import("./Meta/Audio.types.js").SFXPlayOptions | undefined;
         play(sfxId: string | number, options?: import("./Meta/Audio.types.js").SFXPlayOptions | undefined): string;
         stopSpecific(sfxId: string | number, id: string): false | undefined;
         stopAll(sfxId: string | number): false | undefined;
@@ -51,7 +52,21 @@ export declare const DAE: {
         setListenerPosition(x: number, y: number, z: number): void;
         setListenerDirection(x: number, y: number, z: number): void;
     };
-    effects: {};
+    effects: {
+        builtInReverbBuffers: Record<string, AudioBuffer>;
+        customReverbBuffers: Record<string, AudioBuffer>;
+        preloadReverbBuffers(builtInReverbs: import("./Meta/Effects.types.js").BuiltInReverbList[], customReverbs?: string[] | undefined): Promise<void>;
+        _getReverbBuffer(effectsData: import("./Meta/Effects.types.js").EffectData): AudioBuffer | undefined;
+        getEffectsNode(effectsData: import("./Meta/Effects.types.js").EffectData, source: AudioNode, master: GainNode): void;
+    };
+    constants: {
+        effectsBaesPath: string;
+        customEffectsBaesPath: string;
+        setEffectsBaePath(path: string): void;
+        setCustomEffectsBaePath(path: string): void;
+        getBuiltInReverbPath(id: string): string;
+        getCustomReverbPath(id: string): string;
+    };
     $INIT(): Promise<void>;
 };
 export declare type DivineAudioEngine = typeof DAE;

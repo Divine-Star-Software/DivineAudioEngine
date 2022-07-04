@@ -25,11 +25,9 @@ export const APIManager = {
         const gain = this.context.createGain();
         return gain;
     },
-    async createReverb() {
+    createConvolver(buffer) {
         const convolver = this.context.createConvolver();
-        const response = await fetch("DAE/reverb/St Nicolaes Church.wav");
-        const arraybuffer = await response.arrayBuffer();
-        convolver.buffer = await this.context.decodeAudioData(arraybuffer);
+        convolver.buffer = buffer;
         return convolver;
     },
     createPannerNode(nodeData) {

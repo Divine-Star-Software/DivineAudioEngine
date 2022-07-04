@@ -1,4 +1,5 @@
 import { APIManager } from "./API/APIManager.js";
+import { ConstantsManager } from "./Constants/ConstantsManager.js";
 import { EffectsManager } from "./Effects/EffectsManager.js";
 import { MusicManager } from "./Music/MusicManager.js";
 import { SFXMAnager } from "./SFX/SFXManager.js";
@@ -10,6 +11,7 @@ export const DAE = {
     sfx: SFXMAnager,
     space: SoundSpaceManager,
     effects: EffectsManager,
+    constants: ConstantsManager,
     async $INIT() {
         DAE.APIManager.$INIT();
         DAE.sfx.createChannels();

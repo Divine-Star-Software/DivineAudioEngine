@@ -7,7 +7,7 @@ export declare const APIManager: {
     connectToMaster(node: AudioNode): void;
     createAudioBufferSource(buffer: AudioBuffer): AudioBufferSourceNode;
     createGain(): GainNode;
-    createReverb(): Promise<ConvolverNode>;
+    createConvolver(buffer: AudioBuffer): ConvolverNode;
     createPannerNode(nodeData: Partial<PannerNodeData>): PannerNode;
     getAudioBuffer(path: string): Promise<AudioBuffer>;
     createAudioElementNode(path: string): Promise<MusicTrackNodes>;

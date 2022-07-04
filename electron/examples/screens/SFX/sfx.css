@@ -31,25 +31,35 @@
 }
 
 .sfx-settings-form label {
-  font-size: 25px;
+  font-size: 20px;
   color: var(--font-color);
+}
+
+.sfx-settings-form select {
+  font-size: 20px;
+  background: black;
+  color: var(--font-color);
+  border: 1px solid var(--font-color);
+  margin: 5px;
 }
 
 .sfx-settings-form input {
-  font-size: 25px;
+  font-size: 20px;
   background: black;
   color: var(--font-color);
   border: 1px solid var(--font-color);
-  margin: 20px;
+  margin: 5px;
 }
-
+.sfx-settings-form .form-button {
+  margin: 5px;
+}
 .sfx-settings-form button {
   background: black;
-  padding: 20px;
+  padding: 10px;
   color: var(--font-color);
   border: 1px solid var(--font-color);
   font-family: var(--font-fmaily);
-  font-size: 25px;
+  font-size: 15px;
   transition: 0.5s;
 }
 
@@ -58,6 +68,11 @@
   background-color: var(--font-color);
   border: 1px solid var(--font-color);
   font-family: var(--font-fmaily);
-  font-size: 25px;
   transition: 0.5s;
+  cursor: pointer;
+}
+
+
+.dir-display {
+  color: var(--font-color);
 }

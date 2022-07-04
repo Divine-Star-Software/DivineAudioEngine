@@ -1,16 +1,19 @@
+import { EffectData } from "./Effects.types";
+
 export type MusicTrackData = {
   id: string;
   path: string;
-  channel : "main" | string;
+  channel: "main" | string;
   loop: boolean;
 };
 
 export type SFXData = {
   id: string;
   path: string;
-  channel : "sfx" | string;
-  is3dSound ?: boolean;
-  _3dSoundData ?: Partial<PannerNodeData>
+  channel: "sfx" | string;
+  varations?: SFXPlayOptions[];
+  is3dSound?: boolean;
+  _3dSoundData?: Partial<PannerNodeData>;
 };
 
 export type MusicTrackNodes = {
@@ -21,17 +24,20 @@ export type MusicTrackNodes = {
 
 export type SFXNodes = {
   buffer: AudioBuffer;
-  
 };
 
 export type SFXPlayOptions = {
   startTime?: number;
-  _3dSoundData ?: Partial<PannerNodeData>,
-  _3dSoundPosition ?: {
-    x : number,
-    y : number,
-    z : number
-  }
+  level?: number;
+  dryLevel?: number;
+  playBackRate?: number;
+  _3dSoundData?: Partial<PannerNodeData>;
+  _3dSoundPosition?: {
+    x: number;
+    y: number;
+    z: number;
+  };
+  effects?: EffectData;
 };
 
 export type EffectTypes = "reverb" | "delay" | "filter";

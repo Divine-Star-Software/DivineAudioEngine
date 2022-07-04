@@ -7,14 +7,12 @@ masterChannel.connect(context.destination);
 export const APIManager = {
   context: context,
 
-  master : masterChannel,
+  master: masterChannel,
 
   pannerNodeDefaults: <Partial<PannerNodeData>>{
     panningModel: "HRTF",
     distanceModel: "exponential",
   },
-
-
 
   $INIT() {
     if (!APIManager.context) {
@@ -24,27 +22,24 @@ export const APIManager = {
     }
   },
 
-
-  connectToMaster(node : AudioNode) {
+  connectToMaster(node: AudioNode) {
     node.connect(this.master);
   },
 
-  createAudioBufferSource(buffer : AudioBuffer) {
+  createAudioBufferSource(buffer: AudioBuffer) {
     const source = context.createBufferSource();
     source.buffer = buffer;
     return source;
   },
 
   createGain() {
-  const gain = this.context.createGain();
-  return gain;
+    const gain = this.context.createGain();
+    return gain;
   },
 
-  async createReverb() {
+  createConvolver(buffer: AudioBuffer) {
     const convolver = this.context.createConvolver();
-    const response = await fetch("DAE/reverb/St Nicolaes Church.wav");
-    const arraybuffer = await response.arrayBuffer();
-    convolver.buffer = await this.context.decodeAudioData(arraybuffer);
+    convolver.buffer = buffer;
     return convolver;
   },
 

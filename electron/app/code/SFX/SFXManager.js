@@ -31,11 +31,36 @@ export const SFXMAnager = {
         }
         return false;
     },
+    _getOptions(data) {
+        if (data.varations) {
+            const length = data.varations.length;
+            const index = Math.floor(Math.random() * length);
+            return data.varations[index];
+        }
+        return undefined;
+    },
     play(sfxId, options) {
         const data = this.getSFXData(sfxId);
+        if (!options && data.varations) {
+            options = this._getOptions(data);
+        }
+        if (options && data.varations && options._3dSoundPosition) {
+            let newOption = this._getOptions(data);
+            newOption._3dSoundPosition = {
+                x: options._3dSoundPosition.x,
+                y: options._3dSoundPosition.y,
+                z: options._3dSoundPosition.z,
+            };
+            options = newOption;
+        }
         const node = this.getSFXNode(sfxId);
+        const master = DAE.APIManager.createGain();
+        const sourceGain = DAE.APIManager.createGain();
         const source = DAE.APIManager.createAudioBufferSource(node.buffer);
         let finalNode = source;
+        if (options?.playBackRate !== undefined) {
+            source.playbackRate.value = options.playBackRate;
+        }
         if (data.is3dSound) {
             const panner = this._getPanner(data, options);
             if (panner) {
@@ -43,10 +68,18 @@ export const SFXMAnager = {
                 finalNode = panner;
             }
         }
-        const mastGain = DAE.APIManager.createGain();
-        finalNode.connect(mastGain);
-        DAE.APIManager.connectToMaster(mastGain);
-        mastGain.gain.value = 1;
+        if (options?.effects) {
+            DAE.effects.getEffectsNode(options.effects, finalNode, master);
+        }
+        if (options?.dryLevel !== undefined) {
+            sourceGain.gain.value = options.dryLevel;
+        }
+        if (options?.level !== undefined) {
+            master.gain.value = options.level;
+        }
+        finalNode.connect(sourceGain);
+        sourceGain.connect(master);
+        DAE.APIManager.connectToMaster(master);
         source.start(0);
         if (!this._playingSFX[data.id]) {
             this._playingSFX[data.id] = {};
@@ -55,7 +88,7 @@ export const SFXMAnager = {
         this._playingSFX[data.id][playId] = source;
         const self = this;
         source.onended = function () {
-            mastGain.disconnect();
+            master.disconnect();
             source.disconnect();
             //@ts-ignore
             self._playingSFX[data.id][playId] = undefined;

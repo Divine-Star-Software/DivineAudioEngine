@@ -9,6 +9,7 @@ export declare const SFXMAnager: {
     _sfxNodes: Record<string, SFXNodes>;
     _sfxChannels: Record<string, GainNode>;
     _getPanner(data: SFXData, options?: SFXPlayOptions | undefined): false | PannerNode;
+    _getOptions(data: SFXData): SFXPlayOptions | undefined;
     play(sfxId: string | number, options?: SFXPlayOptions | undefined): string;
     /**# Stop Specific
      * ---
