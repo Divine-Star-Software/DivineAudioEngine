@@ -1,0 +1,144 @@
+body {
+  font-family: "Lucida Console";
+  background: black;
+  --font-color: rgba(162, 5, 224, 0.925);
+  --font-fmaily: "Lucida Console";
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.logo-container {
+  position: absolute;
+  transform: translate(-450%, 0%);
+  top: 50px;
+  left: 50%;
+}
+
+.dae-logo {
+  color: rgba(162, 5, 224, 0.925);
+  top: 30px;
+  text-align: center;
+  font-size: 50px;
+  width: 100%;
+}
+
+.dae-version {
+  color: rgba(119, 7, 163, 0.925);
+  text-align: center;
+  font-size: 20px;
+}
+.dae-desc {
+  color: rgba(119, 7, 163, 0.925);
+  text-align: center;
+  width: 100%;
+  margin: auto;
+  max-width: 800px;
+  font-size: 25px;
+  line-height: 40px;
+}
+
+.logo-container svg {
+  fill: rgba(162, 5, 224, 0.925);
+  animation: spin 8s linear infinite;
+}
+
+.main-screen {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  left: 5%;
+  margin: auto;
+  padding: 0;
+  margin: 0;
+}
+
+.home-screen-button {
+  width: 100%;
+  border: 1px solid rgba(119, 7, 163, 0.925);
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+.home-screen-button button {
+  background: black;
+  color: var(--font-color);
+  font-family: var(--font-fmaily);
+  font-size: 25px;
+  transition: 0.5s;
+}
+
+.home-screen-button button:hover {
+  color: black;
+  background-color: var(--font-color);
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.home-screen-button button.active {
+  color: black;
+  background-color: var(--font-color);
+}
+
+.screen-container {
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(119, 7, 163, 0.925);
+}
+.screen-title {
+  text-align: center;
+  color: rgba(119, 7, 163, 0.925);
+}
+.screen-active {
+  display: block;
+}
+.screen-inactive {
+  display: none;
+}
+
+.audio-list {
+  font-size: 20px;
+}
+
+
+.audio-track {
+  color: var(--font-color);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+  border-top: 1px solid rgba(119, 7, 163, 0.925);
+  border-bottom: 1px solid rgba(119, 7, 163, 0.925);
+  transition: 0.5s;
+}
+.audio-track:hover {
+  color: black;
+  background: var(--font-color);
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(95, 0, 133, 0.925);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(162, 5, 224, 0.925);
+  border: 3px solid rgba(191, 30, 255, 0.925);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate3d(0, -1, 0, 0deg);
+  }
+  100% {
+    transform: rotate3d(0, -1, 0, 360deg);
+  }
+}

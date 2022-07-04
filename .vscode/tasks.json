@@ -15,8 +15,7 @@
         "backend-compile",
         "src-compile",
         "example-compile",
-        "dsst-src",
-        "dsst-libs"
+        "dsst-src"
       ],
       // Mark as the default build task so cmd/ctrl+shift+b will create them
       "group": {
@@ -47,7 +46,7 @@
       "isBackground": true
     },
     {
-      "label": "src-compile",
+      "label": "example-compile",
       "type": "shell",
       "command": "cd electron/examples; tsc --watch",
       "isBackground": true

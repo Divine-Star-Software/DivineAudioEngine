@@ -1,0 +1,25 @@
+{
+ "sources": [
+  {
+    "dir": "D:/DSSoftware/APPS/divineaudioengine/electron/examples/",
+    "fileExtensions": [
+    "css"
+   ],
+   "id": "css"
+  }
+ ],
+ "outputs": [
+  {
+   "dir": "D:/DSSoftware/APPS/divineaudioengine/electron/app/examples/",
+   "sourceID": "css",
+   "codeSection": "all",
+   "keepComments": true
+  }
+ ],
+ "codeSections": {
+  "test": {
+   "start": "@ds-test-start",
+   "end": "@ds-test-end"
+  }
+ }
+}

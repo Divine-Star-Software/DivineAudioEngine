@@ -1,10 +1,15 @@
-import { MusicTrackData } from "Meta/Audio.types";
+import { MusicTrackNodes, MusicTrackData } from "Meta/Audio.types";
 import { DAE } from "../DivineAudioEngine.js";
 export const MusicManager = {
   _musicCount: 0,
   _musicPalette: <Record<string, number>>{},
   _musicMap: <Record<number, string>>{},
   _trackData: <Record<string, MusicTrackData>>{},
+
+  _trackNodes: <Record<string, MusicTrackNodes>>{},
+
+  musicChannels : <Record<string,GainNode>> {},
+
 
   play(trackId: string | number) {
     const data = this.getTrackData(trackId);
@@ -25,16 +30,18 @@ export const MusicManager = {
     }
     return data;
   },
+
   registerMusicTracks(data: MusicTrackData[]) {
     for (const track of data) {
       this._trackData[track.id] = track;
     }
   },
 
-  createMusicNodes() {
+  async createMusicNodes() {
     for (const trackID of Object.keys(this._trackData)) {
       const track = this._trackData[trackID];
-      DAE.APIManager.createAudioElementNode(track.id, track.path);
+      const node = await DAE.APIManager.createAudioElementNode(track.path);
+      this._trackNodes[track.id] = node;
     }
   },
 };

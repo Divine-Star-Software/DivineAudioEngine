@@ -13,7 +13,6 @@ const ipcMain = require("electron").ipcMain;
 const { promises: fs } = require("fs");
 const path = require("path");
 const { session } = require("electron");
-const ws = require("ws");
 const APP_INIT = () => __awaiter(void 0, void 0, void 0, function* () {
     session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
         //enable headers to enable shared array buffer

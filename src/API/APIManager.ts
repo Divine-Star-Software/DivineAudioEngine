@@ -1,13 +1,20 @@
+import { MusicTrackNodes, PannerNodeData, SFXNodes } from "../Meta/Audio.types";
+
 const context = new AudioContext();
 const masterChannel = context.createGain();
 masterChannel.connect(context.destination);
 
 export const APIManager = {
   context: context,
-  audioDiv: document.createElement("div"),
 
-  audioElements: <Record<string, HTMLAudioElement>>{},
-  audioElementSourceNodes: <Record<string, MediaElementAudioSourceNode>>{},
+  master : masterChannel,
+
+  pannerNodeDefaults: <Partial<PannerNodeData>>{
+    panningModel: "HRTF",
+    distanceModel: "exponential",
+  },
+
+
 
   $INIT() {
     if (!APIManager.context) {
@@ -15,10 +22,22 @@ export const APIManager = {
         "AudioContext is not found. This browser is not suppourted."
       );
     }
-    if (!APIManager.audioDiv) {
-      throw new Error("AudioDiv is not found. This browser is not suppourted.");
-    }
-    document.body.append(APIManager.audioDiv);
+  },
+
+
+  connectToMaster(node : AudioNode) {
+    node.connect(this.master);
+  },
+
+  createAudioBufferSource(buffer : AudioBuffer) {
+    const source = context.createBufferSource();
+    source.buffer = buffer;
+    return source;
+  },
+
+  createGain() {
+  const gain = this.context.createGain();
+  return gain;
   },
 
   async createReverb() {
@@ -29,22 +48,34 @@ export const APIManager = {
     return convolver;
   },
 
-  async createAudioElementNode(id: string, path: string) {
+  createPannerNode(nodeData: Partial<PannerNodeData>) {
+    const context = this.context;
+    if (!nodeData.distanceModel) {
+      nodeData.distanceModel = this.pannerNodeDefaults.distanceModel;
+    }
+    if (!nodeData.panningModel) {
+      nodeData.panningModel = this.pannerNodeDefaults.panningModel;
+    }
+    return new PannerNode(context, nodeData);
+  },
+
+  async getAudioBuffer(path: string): Promise<AudioBuffer> {
+    const response = await fetch(path);
+    const buffer = await response.arrayBuffer();
+    const source = await APIManager.context.decodeAudioData(buffer);
+    return source;
+  },
+
+  async createAudioElementNode(path: string): Promise<MusicTrackNodes> {
     const audio = new Audio(path);
-    audio.id = id;
-    this.audioElements[id] = audio;
     const audioNode = APIManager.context.createMediaElementSource(audio);
-    const gainNode = APIManager.context.createGain();
-    const gainNode2 = APIManager.context.createGain();
-    const reverb = await this.createReverb();
-    audioNode.connect(reverb);
-    reverb.connect(gainNode);
-    gainNode.connect(masterChannel);
-    audioNode.connect(gainNode2);
-    gainNode2.connect(masterChannel);
-    gainNode.gain.value = 0.5;
-    gainNode2.gain.value = 0.4;
-    audioNode.mediaElement.play();
-    this.audioElementSourceNodes[id] = audioNode;
+    const masterGainNode = APIManager.context.createGain();
+    masterGainNode.connect(masterChannel);
+    audioNode.connect(masterGainNode);
+    return {
+      master: masterGainNode,
+      audio: audioNode,
+      effects: {},
+    };
   },
 };

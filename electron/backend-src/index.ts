@@ -3,7 +3,7 @@ const ipcMain: Electron.IpcMain = require("electron").ipcMain;
 const { promises: fs } = require("fs");
 const path = require("path");
 const { session } = require("electron");
-const ws = require("ws");
+
 
 const APP_INIT = async () => {
   session.defaultSession.webRequest.onHeadersReceived(

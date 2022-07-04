@@ -4,6 +4,8 @@ export const MusicManager = {
     _musicPalette: {},
     _musicMap: {},
     _trackData: {},
+    _trackNodes: {},
+    musicChannels: {},
     play(trackId) {
         const data = this.getTrackData(trackId);
     },
@@ -26,10 +28,11 @@ export const MusicManager = {
             this._trackData[track.id] = track;
         }
     },
-    createMusicNodes() {
+    async createMusicNodes() {
         for (const trackID of Object.keys(this._trackData)) {
             const track = this._trackData[trackID];
-            DAE.APIManager.createAudioElementNode(track.id, track.path);
+            const node = await DAE.APIManager.createAudioElementNode(track.path);
+            this._trackNodes[track.id] = node;
         }
     },
 };

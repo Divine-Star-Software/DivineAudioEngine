@@ -1,9 +1,14 @@
+import { MusicTrackNodes, PannerNodeData } from "../Meta/Audio.types";
 export declare const APIManager: {
     context: AudioContext;
-    audioDiv: HTMLDivElement;
-    audioElements: Record<string, HTMLAudioElement>;
-    audioElementSourceNodes: Record<string, MediaElementAudioSourceNode>;
+    master: GainNode;
+    pannerNodeDefaults: Partial<PannerNodeData>;
     $INIT(): void;
+    connectToMaster(node: AudioNode): void;
+    createAudioBufferSource(buffer: AudioBuffer): AudioBufferSourceNode;
+    createGain(): GainNode;
     createReverb(): Promise<ConvolverNode>;
-    createAudioElementNode(id: string, path: string): Promise<void>;
+    createPannerNode(nodeData: Partial<PannerNodeData>): PannerNode;
+    getAudioBuffer(path: string): Promise<AudioBuffer>;
+    createAudioElementNode(path: string): Promise<MusicTrackNodes>;
 };

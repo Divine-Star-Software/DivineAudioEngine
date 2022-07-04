@@ -1,18 +1,102 @@
 import { DAE } from "../DivineAudioEngine.js";
-import { SFXData } from "../Meta/Audio.types";
+import { SFXData, SFXNodes, SFXPlayOptions } from "../Meta/Audio.types";
 
 export const SFXMAnager = {
+  _sfxPlayIdCount: 0,
+  _playingSFX: <Record<string, Record<string, AudioBufferSourceNode>>>{},
+
   _sfxCount: 0,
   _sfxPalette: <Record<string, number>>{},
   _sfxMap: <Record<number, string>>{},
   _sfxData: <Record<string, SFXData>>{},
 
-  play(sfxId: string | number) {
-    const data = this.getSFXData(sfxId);
+  _sfxNodes: <Record<string, SFXNodes>>{},
+
+  _sfxChannels: <Record<string, GainNode>>{},
+
+  _getPanner(data: SFXData, options?: SFXPlayOptions) {
+    if (data.is3dSound) {
+      let pannerData = data._3dSoundData;
+      if (!data._3dSoundData && options?._3dSoundData) {
+        pannerData = options._3dSoundData;
+      }
+      if (!options?._3dSoundPosition) {
+        throw new Error(`Must provide a postion to play a 3d sound.`);
+      }
+      if (!pannerData) {
+        pannerData = {
+          positionX: 0,
+          positionY: 0,
+          positionZ: 0,
+        };
+      }
+      pannerData.positionX = options._3dSoundPosition.x;
+      pannerData.positionY = options._3dSoundPosition.y;
+      pannerData.positionZ = options._3dSoundPosition.z;
+      return DAE.APIManager.createPannerNode(pannerData);
+    }
+    return false;
   },
 
-  stop(sfxId: string | number) {
+  play(sfxId: string | number, options?: SFXPlayOptions) {
     const data = this.getSFXData(sfxId);
+    const node = this.getSFXNode(sfxId);
+    const source = DAE.APIManager.createAudioBufferSource(node.buffer);
+    let finalNode: AudioNode = source;
+    if (data.is3dSound) {
+      const panner = this._getPanner(data, options);
+      if (panner) {
+        finalNode.connect(panner);
+        finalNode = panner;
+      }
+    }
+
+    const mastGain = DAE.APIManager.createGain();
+    finalNode.connect(mastGain);
+    DAE.APIManager.connectToMaster(mastGain);
+    mastGain.gain.value = 1;
+    source.start(0);
+
+    if (!this._playingSFX[data.id]) {
+      this._playingSFX[data.id] = {};
+    }
+
+    const playId = String(this._sfxPlayIdCount);
+    this._playingSFX[data.id][playId] = source;
+    const self = this;
+    source.onended = function () {
+      mastGain.disconnect();
+      source.disconnect();
+      //@ts-ignore
+      self._playingSFX[data.id][playId] = undefined;
+    };
+    this._sfxPlayIdCount++;
+    return playId;
+  },                 
+
+  /**# Stop Specific
+   * ---
+   * Use the id returned from `play` to stop a specific instance of a sound.
+   */
+  stopSpecific(sfxId: string | number, id: string) {
+    const data = this.getSFXData(sfxId);
+    if (!this._playingSFX[data.id]) return false;
+    if (!this._playingSFX[data.id][id]) return false;
+    this._playingSFX[data.id][id].stop();
+    //@ts-ignore
+    this._playingSFX[data.id][id] = undefined;
+  },
+
+  stopAll(sfxId: string | number) {
+    const data = this.getSFXData(sfxId);
+    if (!this._playingSFX[data.id]) return false;
+    const keys = Object.keys(this._playingSFX[data.id]);
+    if (keys.length == 0) return false;
+    for (const key of keys) {
+      this._playingSFX[data.id][key].stop();
+      //@ts-ignore
+      this._playingSFX[data.id][key] = undefined;
+    }
   },
 
   getSFXData(sfxId: string | number) {
@@ -27,6 +111,17 @@ export const SFXMAnager = {
     return data;
   },
 
+  getSFXNode(sfxId: string | number) {
+    const data = this.getSFXData(sfxId);
+    const node = this._sfxNodes[data.id];
+    if (!node) {
+      throw new Error(
+        `DAE: SFX with ID: ${data.id} does audio nodes are not created.`
+      );
+    }
+    return node;
+  },
+
   registerSFX(sfxData: SFXData[]) {
     for (const sfx of sfxData) {
       this._sfxData[sfx.id] = sfx;
@@ -36,10 +131,17 @@ export const SFXMAnager = {
     }
   },
 
-  createSFXNodes() {
+  registerSFXChannel() {},
+
+  createChannels() {},
+
+  async createSFXNodes() {
     for (const sfxKey of Object.keys(this._sfxData)) {
       const sfx = this._sfxData[sfxKey];
-      DAE.APIManager.createAudioElementNode(sfx.id, sfx.path);
+      const buffer = await DAE.APIManager.getAudioBuffer(sfx.path);
+      this._sfxNodes[sfx.id] = {
+        buffer: buffer,
+      };
     }
   },
 };
