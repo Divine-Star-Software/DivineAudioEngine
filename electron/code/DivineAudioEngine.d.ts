@@ -52,7 +52,7 @@ export declare const DAE: {
         createSFXNodes(): Promise<void>;
     };
     space: {
-        model: "equalpower" | "HRTF";
+        model: "HRTF" | "equalpower";
         setListenerPosition(x: number, y: number, z: number): void;
         setListenerDirection(x: number, y: number, z: number): void;
     };

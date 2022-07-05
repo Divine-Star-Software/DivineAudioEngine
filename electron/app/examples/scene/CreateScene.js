@@ -1,3 +1,4 @@
+import { DAE } from "../../code/DivineAudioEngine.js";
 import { ParticleSystemData } from "./particles.js";
 export const ScneeObjects = {
     listener: null,
@@ -6,12 +7,41 @@ export const ScneeObjects = {
 };
 const states = {
     main: true,
+    moving: false,
+};
+const moveListener = (speed = 0.01) => {
+    if (states.moving)
+        return;
+    states.moving = true;
+    const listener = ScneeObjects.listener;
+    const cachedPosition = {
+        x: listener.position.x,
+        y: listener.position.y,
+        z: listener.position.z,
+    };
+    const stopPosition = {
+        x: cachedPosition.x + 20,
+        y: cachedPosition.y,
+        z: cachedPosition.z,
+    };
+    listener.position.x -= 20;
+    const inte = setInterval(() => {
+        listener.position.x += speed;
+        DAE.space.setListenerPosition(listener.position.x, listener.position.y, listener.position.z);
+        if (listener.position.x > stopPosition.x) {
+            listener.position.x = cachedPosition.x;
+            listener.position.y = cachedPosition.y;
+            listener.position.z = cachedPosition.z;
+            DAE.space.setListenerPosition(listener.position.x, listener.position.y, listener.position.z);
+            states.moving = false;
+            clearInterval(inte);
+        }
+    }, 10);
 };
 window.addEventListener("keydown", (event) => {
-    console.log(event.key);
-    //@ts-ignore
-    const main = document.getElementById("main");
     if (event.key == "F1") {
+        //@ts-ignore
+        const main = document.getElementById("main");
         if (states.main) {
             states.main = false;
             main.style.display = "none";
@@ -21,6 +51,12 @@ window.addEventListener("keydown", (event) => {
             document.exitPointerLock();
             main.style.display = "block";
         }
+    }
+    if (event.key == "F2") {
+        moveListener();
+    }
+    if (event.key == "F3") {
+        moveListener(0.1);
     }
 });
 export const CreateScene = () => {

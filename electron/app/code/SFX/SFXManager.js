@@ -82,7 +82,6 @@ export const SFXMAnager = {
         finalNode.connect(sourceGain);
         sourceGain.connect(master);
         DAE.api.connectToMaster(master);
-        source.start(0, 0, 40000);
         disconnectNodes.push(source, sourceGain, master);
         if (!this._playingSFX[data.id]) {
             this._playingSFX[data.id] = {};
@@ -98,6 +97,12 @@ export const SFXMAnager = {
             self._playingSFX[data.id][playId] = undefined;
         };
         this._sfxPlayIdCount++;
+        /*     master.gain.setValueAtTime(master.gain.value, DAE.api.context.currentTime);
+            master.gain.exponentialRampToValueAtTime(
+              0.0001,
+              DAE.api.context.currentTime + node.buffer.duration * 2
+            ); */
+        source.start(0);
         return playId;
     },
     /**# Stop Specific

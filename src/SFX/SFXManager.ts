@@ -66,7 +66,7 @@ export const SFXMAnager = {
     const master = DAE.api.createGain();
     const sourceGain = DAE.api.createGain();
     const source = DAE.api.createAudioBufferSource(node.buffer);
-    
+
     let finalNode: AudioNode = source;
     if (options?.playBackRate !== undefined) {
       source.playbackRate.value = options.playBackRate;
@@ -100,7 +100,6 @@ export const SFXMAnager = {
     sourceGain.connect(master);
 
     DAE.api.connectToMaster(master);
-    source.start(0,0,40000);
 
     disconnectNodes.push(source, sourceGain, master);
 
@@ -119,6 +118,15 @@ export const SFXMAnager = {
       self._playingSFX[data.id][playId] = undefined;
     };
     this._sfxPlayIdCount++;
+
+/*     master.gain.setValueAtTime(master.gain.value, DAE.api.context.currentTime);
+    master.gain.exponentialRampToValueAtTime(
+      0.0001,
+      DAE.api.context.currentTime + node.buffer.duration * 2
+    ); */
+
+
+    source.start(0);
     return playId;
   },
 

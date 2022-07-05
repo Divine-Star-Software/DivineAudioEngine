@@ -1,5 +1,6 @@
 const context = new AudioContext();
 const masterChannel = context.createGain();
+masterChannel.gain.value = 1;
 masterChannel.connect(context.destination);
 export const APIManager = {
     context: context,

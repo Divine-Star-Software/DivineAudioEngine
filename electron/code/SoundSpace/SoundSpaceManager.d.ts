@@ -1,5 +1,5 @@
 export declare const SoundSpaceManager: {
-    model: "equalpower" | "HRTF";
+    model: "HRTF" | "equalpower";
     setListenerPosition(x: number, y: number, z: number): void;
     /**# Set Listener Direction
      * ---
