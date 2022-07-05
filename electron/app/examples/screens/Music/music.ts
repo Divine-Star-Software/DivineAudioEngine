@@ -4,24 +4,24 @@ export const MusicScreen = (cascadeProps: any): ElementTreeData => {
   return [
     {
       type: "div",
-      attrs : {
-        className : "screen-inactive"
+      attrs: {
+        className: "screen screen-inactive",
       },
       cascade: {
         origin: cascadeProps,
         receiver: (elm, props) => {
           if (cascadeProps.currentScreen == "music") {
-            elm.className = "screen-active";
-        } else {
-          elm.className = "screen-inactive";
-        }
+            elm.classList.replace("screen-inactive", "screen-active");
+          } else {
+            elm.classList.replace("screen-active", "screen-inactive");
+          }
         },
       },
       children: [
         {
           type: "h1",
-          attrs : {
-            className : "screen-title"
+          attrs: {
+            className: "screen-title",
           },
           text: "music",
         },

@@ -40,7 +40,7 @@ export const SFXScreen = (cascadeProps) => {
         {
             type: "div",
             attrs: {
-                className: "screen-inactive",
+                className: "screen screen-inactive",
             },
             cascade: {
                 origin: cascadeProps,

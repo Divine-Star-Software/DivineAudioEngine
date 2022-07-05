@@ -79,6 +79,7 @@ body {
   background: rgba(0, 0, 0, .7);
 }
 
+
 .home-screen-button {
   width: 100%;
   border: 1px solid rgba(119, 7, 163, 0.925);
@@ -107,6 +108,9 @@ body {
 }
 
 .screen-container {
+  max-height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
   border: 1px solid rgba(119, 7, 163, 0.925);
 }
 .screen-title {
@@ -121,10 +125,7 @@ body {
 }
 
 .audio-list {
-  max-height: 600px;
 
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 
 .audio-track {

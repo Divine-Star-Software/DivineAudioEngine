@@ -4,16 +4,16 @@ export const HomeScreen = (cascadeProps) => {
         {
             type: "div",
             attrs: {
-                className: "screen-active",
+                className: "screen screen-active",
             },
             cascade: {
                 origin: cascadeProps,
                 receiver: (elm, props) => {
                     if (cascadeProps.currentScreen == "home") {
-                        elm.className = "screen-active";
+                        elm.classList.replace("screen-inactive", "screen-active");
                     }
                     else {
-                        elm.className = "screen-inactive";
+                        elm.classList.replace("screen-active", "screen-inactive");
                     }
                 },
             },

@@ -48,7 +48,7 @@ export const SFXScreen = (cascadeProps: any): ElementTreeData => {
     {
       type: "div",
       attrs: {
-        className: "screen-inactive",
+        className: "screen screen-inactive",
       },
       cascade: {
         origin: cascadeProps,

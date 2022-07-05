@@ -3,16 +3,16 @@ export const MusicScreen = (cascadeProps) => {
         {
             type: "div",
             attrs: {
-                className: "screen-inactive"
+                className: "screen screen-inactive",
             },
             cascade: {
                 origin: cascadeProps,
                 receiver: (elm, props) => {
                     if (cascadeProps.currentScreen == "music") {
-                        elm.className = "screen-active";
+                        elm.classList.replace("screen-inactive", "screen-active");
                     }
                     else {
-                        elm.className = "screen-inactive";
+                        elm.classList.replace("screen-active", "screen-inactive");
                     }
                 },
             },
@@ -20,7 +20,7 @@ export const MusicScreen = (cascadeProps) => {
                 {
                     type: "h1",
                     attrs: {
-                        className: "screen-title"
+                        className: "screen-title",
                     },
                     text: "music",
                 },
