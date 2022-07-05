@@ -61,7 +61,7 @@ export declare const DAE: {
         customReverbBuffers: Record<string, AudioBuffer>;
         preloadReverbBuffers(builtInReverbs: import("./Meta/Effects.types.js").BuiltInReverbList[], customReverbs?: string[] | undefined): Promise<void>;
         _getReverbBuffer(effectsData: import("./Meta/Effects.types.js").EffectData): AudioBuffer | undefined;
-        getEffectsNode(effectsData: import("./Meta/Effects.types.js").EffectData, source: AudioNode, master: GainNode): void;
+        getEffectsNode(effectsData: import("./Meta/Effects.types.js").EffectData, source: AudioNode, master: GainNode, nodes: AudioNode[]): void;
     };
     constants: {
         effectsBaesPath: string;

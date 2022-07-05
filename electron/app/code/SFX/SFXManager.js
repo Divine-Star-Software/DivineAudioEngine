@@ -53,6 +53,7 @@ export const SFXMAnager = {
             };
             options = newOption;
         }
+        const disconnectNodes = [];
         const node = this.getSFXNode(sfxId);
         const master = DAE.api.createGain();
         const sourceGain = DAE.api.createGain();
@@ -65,11 +66,12 @@ export const SFXMAnager = {
             const panner = this._getPanner(data, options);
             if (panner) {
                 finalNode.connect(panner);
+                disconnectNodes.push(panner);
                 finalNode = panner;
             }
         }
         if (options?.effects) {
-            DAE.effects.getEffectsNode(options.effects, finalNode, master);
+            DAE.effects.getEffectsNode(options.effects, finalNode, master, disconnectNodes);
         }
         if (options?.dryLevel !== undefined) {
             sourceGain.gain.value = options.dryLevel;
@@ -80,7 +82,8 @@ export const SFXMAnager = {
         finalNode.connect(sourceGain);
         sourceGain.connect(master);
         DAE.api.connectToMaster(master);
-        source.start(0);
+        source.start(0, 0, 40000);
+        disconnectNodes.push(source, sourceGain, master);
         if (!this._playingSFX[data.id]) {
             this._playingSFX[data.id] = {};
         }
@@ -88,8 +91,9 @@ export const SFXMAnager = {
         this._playingSFX[data.id][playId] = source;
         const self = this;
         source.onended = function () {
-            master.disconnect();
-            source.disconnect();
+            for (const node of disconnectNodes) {
+                node.disconnect();
+            }
             //@ts-ignore
             self._playingSFX[data.id][playId] = undefined;
         };

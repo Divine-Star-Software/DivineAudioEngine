@@ -4,5 +4,5 @@ export declare const EffectsManager: {
     customReverbBuffers: Record<string, AudioBuffer>;
     preloadReverbBuffers(builtInReverbs: BuiltInReverbList[], customReverbs?: string[] | undefined): Promise<void>;
     _getReverbBuffer(effectsData: EffectData): AudioBuffer | undefined;
-    getEffectsNode(effectsData: EffectData, source: AudioNode, master: GainNode): void;
+    getEffectsNode(effectsData: EffectData, source: AudioNode, master: GainNode, nodes: AudioNode[]): void;
 };

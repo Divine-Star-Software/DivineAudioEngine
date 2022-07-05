@@ -48,7 +48,7 @@ export const EffectsManager = {
     }
   },
 
-  getEffectsNode(effectsData: EffectData, source: AudioNode, master: GainNode) {
+  getEffectsNode(effectsData: EffectData, source: AudioNode, master: GainNode,nodes : AudioNode[]) {
     if (effectsData.reverb) {
       const buffer = this._getReverbBuffer(effectsData);
       if (buffer) {
@@ -58,6 +58,7 @@ export const EffectsManager = {
         reverb.connect(reverbGain);
         reverbGain.gain.value = effectsData.reverb.level;
         reverbGain.connect(master);
+        nodes.push(reverb,reverbGain);
       }
     }
   },

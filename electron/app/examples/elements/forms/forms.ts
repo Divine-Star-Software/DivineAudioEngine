@@ -1,9 +1,16 @@
+
+
+
 import {
+  ElementTree,
   ElementTreeData,
   HTMLInputTypes,
   InputValueTypes,
-} from "../../libs/index";
+} from "../../libs/index.js";
 import { Div } from "../div.js";
+
+
+ElementTree.linkCSS(import.meta.url, "forms.css");
 
 export const formInput = (
   label: string,

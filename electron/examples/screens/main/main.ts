@@ -1,6 +1,7 @@
 import { ElementTree, ElementTreeData } from "../../libs/index.js";
 import { HomeScreen } from "../home/home.js";
 import { MusicScreen } from "../Music/music.js";
+import { SettingsScreen } from "../settings/settings.js";
 import { SFXScreen } from "../SFX/sfx.js";
 
 const cascadeProps = {
@@ -71,6 +72,10 @@ export const CreateMainScreen = (): ElementTreeData => {
               cascadeProps.currentScreen = "music";
               cascade();
             }),
+            homeScreenButton("settings", () => {
+              cascadeProps.currentScreen = "settings";
+              cascade();
+            }),
           ],
         },
         {
@@ -82,6 +87,7 @@ export const CreateMainScreen = (): ElementTreeData => {
             HomeScreen(cascadeProps),
             SFXScreen(cascadeProps),
             MusicScreen(cascadeProps),
+            SettingsScreen(cascadeProps),
           ],
         },
       ],

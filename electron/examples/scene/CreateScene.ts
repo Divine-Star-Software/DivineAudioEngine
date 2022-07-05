@@ -80,7 +80,7 @@ export const CreateScene = () => {
   const soundSphere = BABYLON.MeshBuilder.CreateSphere("", { diameter: 1 });
   soundSphere.position.y = 4;
   soundSphere.material = mat1;
-  soundSphere.visibility = 0.5;
+  //soundSphere.visibility = 0.5;
   ScneeObjects.sound = soundSphere;
 
   const listenerBox = BABYLON.MeshBuilder.CreateBox("", {
@@ -89,7 +89,7 @@ export const CreateScene = () => {
     depth: 1,
   });
   listenerBox.material = mat2;
-  listenerBox.visibility = 0.5;
+  //listenerBox.visibility = 0.5;
   ScneeObjects.listener = listenerBox;
   engine.runRenderLoop(() => {
     scene.render();

@@ -1,6 +1,7 @@
 body {
   font-family: "Lucida Console";
   background: black;
+  --main: rgba(162, 5, 224, 0.925);
   --font-color: rgba(162, 5, 224, 0.925);
   --font-fmaily: "Lucida Console";
   overflow: hidden;
@@ -84,7 +85,7 @@ body {
   width: 100%;
   border: 1px solid rgba(119, 7, 163, 0.925);
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: auto auto auto auto;
 }
 
 .home-screen-button button {

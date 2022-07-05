@@ -1,4 +1,6 @@
+import { ElementTree, } from "../../libs/index.js";
 import { Div } from "../div.js";
+ElementTree.linkCSS(import.meta.url, "forms.css");
 export const formInput = (label, inputType, valueType, propertyName, bindTo) => {
     return Div("form-group", [
         {
